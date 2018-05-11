@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <title>Left Side Menu App template</title>
+        <link rel="stylesheet" type="text/css" href="w3/codemirror.css">
+        <script type="text/javascript" src="w3/codemirror.js"></script>
+        <!--
+    This template can be used for simple app with left side menu that can be opened to switch views, for applications like Youtube App or Gmail app.
+-->
+
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0;">
+        <!-- ----------------------------------------------------------------------------------------------- -->
+    <script type="text/javascript">
+        function proses() {
+        var hs = document.getElementById('ta').value;
+        document.getElementById('hasil').innerHTML = hs;
+        }
+        function bersih() {
+        document.getElementById('ta').value = "";
+        document.getElementById('hasil').innerHTML = "";
+        }
+    </script>
+  <!--      <link rel="stylesheet" type="text/css" href="css/bootstrap.css"> -->
+
+        <!-- ------------------------------------------------------------------------------------------------ -->
+
+        <link rel="stylesheet" type="text/css" href="css/af.ui.css">
+        <link rel="stylesheet" type="text/css" href="css/icons.css">
+        <link rel="stylesheet" type="text/css" href="css/menu_main.less.css" class="main-less">
+        <script type="text/javascript" charset="utf-8" src="js/appframework.ui.min.js"></script>
+        <!--AppFramework plugin for sliding side menu-->
+        <script type="text/javascript" charset="utf-8" src="js/af.slidemenu.js"></script>
+
+        <!-- Required if packaging to native app using Intel XDK -->
+        <script src="intelxdk.js"></script>
+        <script src="xhr.js"></script>
+ 
+        <script>
+            function onDeviceReady(){ 
+                $.ui.launch();
+                intel.xdk.device.hideSplashScreen();
+            }
+            document.addEventListener("intel.xdk.device.ready", onDeviceReady, false);
+        </script>
+        <!-- end Intel XDK code -->
+
+        <script>
+            $.ui.autoLaunch = false;
+            $.ui.animateHeaders = false;
+                    
+            $(document).ready(function(){
+                $.ui.setSideMenuWidth('260px');
+                $.ui.launch();
+                $("#komentar").on("click", function(){
+                    komen();
+                });
+            });
+            function komen(){            
+            var data = $("#inputkomen").serialize();
+            //$.post("http://smk-smeatdkosgoro2pdg.sch.id/belajar/input_komentar.php", data, function(data){
+			$.post("http://localhost/belajar/input_komentar.php", data, function(data){
+                         
+                        if(data.status == 'isi_data'){
+                                //   alert("Mohon isi data dengan lengkap !");
+                                   swal("Mohon isi data dengan lengkap !", "...", "info")
+                            }
+                          else if(data.status == "sukses"){
+                               //  alert('Terimakasih atas kritik / saran / komentar anda !');
+                                 swal({
+
+                    title: "Terimakasih Atas Berita Pengaduan Anda !",
+                    text: "",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "OK !",
+                    cancelButtonText: "Tidak !",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+
+                    },
+
+                    function (isConfirm) {
+                        if (isConfirm) {
+                            window.location='index.html'; 
+                            return false
+                        } 
+                        else {
+                            
+                            return false;
+                        }
+
+                    });
+                                 //window.location='index.html';
+                            }
+                            else if(data.status == 'gagal'){
+                                   alert("Error on query!");
+                                   
+                            }
+                         
+             });
+                
+             //   $.ui.loadContent("main", null, null, "fade");
+            }
+        </script>
+        <link href="css/sweetalert.css" rel="stylesheet" type="text/css">
+        <script src="js/sweetalert.min.js" type="text/javascript"></script>
+        <script type="application/javascript" src="js/themeRelease.js"></script>
+        <script src="cordova.js"></script>
+        <script type="text/javascript">
+            function keluar() {
+                //close();
+                //opener.window.focus();
+                //return false;
+                confirm('yakin ingin keluar?',exitFromApp,'exit','Cancel,OK');
+            }
+            function exitFromApp(bi){
+                if (bi==2){
+                    navigator.app.exitApp();
+                }
+            }
+        </script>
+
+               <script>
+            $(document).ready(function(){
+            
+               
+                var IDNE = parse("ID");
+               $.post("http://localhost/server/get_user2.php?ID="+IDNE,function(response){
+                
+                 //alert(JSON.stringify(response));                   
+                    
+                    var arr = $.parseJSON(response); 
+                    var trHTML = '';
+                    var nom = parseInt(1);
+
+                    trHTML += 'INSPEKTORAT KOTA PADANG ';
+                     $.each(arr, function(ix, nilai){
+                      trHTML += arr[ix].NAMA });
+                     $('#datane1').append(trHTML).listview("refresh");
+                         
+               });
+            
+          });
+
+
+
+
+    function parse(val) {
+    
+    var result = "Not found",
+        tmp = [];
+    location.search
+    //.replace ( "?", "" ) 
+    // this is better, there might be a question mark inside
+    .substr(1)
+        .split("&")
+        .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === val) result = decodeURIComponent(tmp[1]);
+    });
+    return result;
+}
+                
+
+        </script>
+     </head>
+
+     <body class="ios">
+
+        <div id="afui">
+
+            <!--Left Side Menu Navigation bar -->
+            <nav>
+                <ul class="list">
+                    <li><a href="#page1" class="icon home">Home</a>
+                    <li><a href="#page5" class="icon message">Berita Pengaduan</a>
+                    </li>
+                    <li><a href="#page6" class="icon question">Bantuan</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div id="content" style="">
+
+                <!--Main View Pages-->
+                <div class="panel" title="Home" id="page1" data-footer="none" selected="true">
+                    <header>
+                        <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton" style="float:left !important"></a>
+                        <h1>Home</h1>
+                    </header>
+                    
+                    <p><h2><center>
+                         <!-- Selamat Datang : <div id="datane"></div><p> -->
+                         
+                <div class="widget uib_w_3 ui-content no_wrap outset-margin d-margins" data-uib="jquery_mobile/listview" data-ver="0">
+                        <ul id="datane1" data-role="listview">
+                         </ul>
+						 Pengaduan Masyarakat..  </h2> </b>  
+
+                    
+                <h4 style="padding:15px;">Percobaan. <br><br><br>
+                <font color=red>Sentuh dan geser layar ke kanan untuk melihat menu.</font></h4> <center>
+                <br><img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAM8AAAD0CAMAAAAL4oIDAAABjFBMVEX///8AAADpLRsdELfq6ynxLxweELzq6upWEApgYGDvLhwAAFIeELrsLhsAAEgeEb7x8ioAALzX19fd3tumIBORHBH09Ss2NjbIyMXPz8/19fVDQ0M7Ozvx8fEJAWgHAGABAU4BAVpKSkoLA3AZGRklJSWNjY0wMDC6urqFhYVtbW0QEBChoaGvr68DA3/b3NkAAECZmZkSCnJ5eRUAAMVTU1PYKhnS0yUVFgAAACwAAIPgKxp7e3sNBXgAADgdHQC6JBYaDqWEGQ+VHRH//wAODwBqaJoAACVLAABwcRTLzCTZ2iaztB9wcGcAADKTkxqzIxXHJhdrFQwYDZrN0FV5eJEAADtgYFcAAB4qIbI2NglFRTldXRAAABnGyVuqq3EvCQW7vWVVUaQ0LLCbnH7V2Uq1tiCVlYKwsm5kEwyJiRgtLhtDAAcNGwQYBQMnNzhSVQ86AAAPJygkAARCRwwAFRahohxJRKlOSqdNTULAwmJdWqF0c5eCgY5oZpv//6ygoXgsLAhCPKsYGCML5Jk4AAAYZElEQVR4nO1d+1/TSPfm0KbFXkhLMRaUFsStrUsrCCoUChTLIlQQLIJy84o3dl189dX1Xd1X3u8//p1LMpOUSdpcAH/o89mVhpbJPJmZc55zziRta2uhhRZaaKGFFlpooYUWWmihhRZaaAEBThC/ariC8QvDVQ0XDLhkwEWOazb4XDhJQh7BDp9zZ93ZJpCxwWcKff5cQ9w04LIBFw1g8+XCcZA5xmbdFQ1kSlrxGbLBZwR9Pmjj86eNJOpf1sbn8+jzyRPrjXsMof512fg85p8/sd64R87m/Emgz4+QV8GfDL2kV9dQ/+zw70OfnyKvTtZG2Qe1apfBHh9M4xx98bTjZ4I6a5Dhu2qXzwX1Skg/EVZVq4a6d9MWn4vagF6D81L7zwLpPfTgTvHl0CzYgssATJ41DQ2hbtWqcXPVLJhBRJ7owU8zQKhTxL7ZdyfMYWXRi7XoWRMhkB5ok8a+u8c0yNLrQi8+/hQDFF1DXblCejcC9uRBW1uPNqJBbPTnfgZCoY+oJ5dJ77Bc7rPFJ8FcF/FiP8GMk+ZwR2jQc86uO23rBaNAOGs27aFZnTy4YJsP91gXSTsdZzzjopP0ug5pnbtok88VgF/ICzVUPeMlFHpKu8HkwTmbfJjiy6lCsPssCUlv1V4QeYBtVM4mn2ua7xrSlO1s6OzozGmdID6+C+xF2xgZ7Y+zTKqvnRUh6Q7rQ6/WJTvRtjYsZHB74KwJSd28C6Rvea1vNsCuQRDOmJCezhXj3LGBHr1x5IRO3yjoJpsmD9jatoEgGASChlO3ctwUYFB5cBNsu1NCg/71VQOh0/VD0VCH4ez0Cv+i+UabfOjo1uV+O6Knp+VCk0+NJ2crwF60rV4EuvqmjE3C+1unNUTSbN2pqYXqBXvJeAo2SUfqG4U70mkMUdS4dAiYPLCTjG9jw0KMSP5Yq9AxefJDJN16evzECdwhFpvZQkb/58fQfcJDFJXOi07rWB7onHBC1DB8OElXFJXWPgrPSnpmNxlPwUoSvcKWAR6c2KSTJt+KT0kNlN1kPAUXsSZ8AM63n4T+kdqP2wEVXB7YpqMLMn4xJYQYeT1GUrtw4VBQK81yt/YAWhB40/wESC9MemgZotKk6dgAu76g5dZt86FBer1DrcODNcmbaReS1h5Yn4rNf7vRNgZLohx3qHV42t3uepCiUnu3wOEYQeyT/WQ8BUtyCRzqMbxdjbqgFJVCqyYmzQDiP66D3WQ8BUtCJps4E6bUPSmF7HOKhqT21QbzTENC646T2i6eZte1C9IcPpxfQ5e6eQGOuITW7txtun2mv5zU3tnf9TV9Poy7c6u3JCnUYKSiiIo0OXu+o3GDOrDrnHDAh4+rrXMSdMx1r03iAmEIETMgFMK/nlzrnrNHBeNX0hv7yXgKvu4st51Y4GPHg7k73auza2u3MNbWZme778w96Ghox0zA40sHdHR28bLD83sNHv874cP91rWzJqKCyQO7yXjGh+qKzFkTUcHkgf1oG4PpvqFGJzolsPym3WQ8BVt42UYnOiUQeeAkGU/B4qausyaiIqFdXPvRNgaLa4ONTnRKYPUbu8l4CnwlqLA4ayIqSF+cJOMpeF7orIlQUHngJBlPwWv2F8+aCgGVB7a3vjHwmv3PsX2Zep0rTpLxFKDlvXMNz3UayBk7ZR/sUrhzqBvpQq3s8/nK5VqxdKN/wmk7Q8ZJYx9sqrpwqOFaRA4EIhHExxeJRAIBWQ6UC/1OmiJehy9q+2CJO2EKuxmUIjJhYkQEkaqlbTfGytNOd1IzU+/QoZYCgeNkOKfasL3mmDxwutOdu2InbPp95mwoJblsixGTB/aT8RRcKjmgU5Ot2VBGtUfNt0h64iwZT8Fr9lcbnaseE40GhzFqeh1ReeA02sbghT27DjXcxOCokGtNtkmDUofJeAJeeG2Qwq5HqXk6PjSQzc052hP04pJTPrxm3zCFbUDRDh0053wLzbTK5IGTZDwFq9k3k8JmaMYSOCBEVrLTZDwFq9nbcajl5iyBkVAT7bLt006S8RSsZi+uCYvwyCcQBI0JlRu3TDyhuxutWM3erCZ8DBsRJ3SQlSs1bJp0xN2NcHzjXJN00naXDie00ahtMlGcJuMpuECwqAnrYNsS6FBu1DjpB1sBjsBzXZY1YRUDjpYOG6Ab1q3/yvrhmI4uF2niUKdLpdLgDQqfi8HBiFjzofLgqkbMGUBzyyYONYxiNQ3u2CCdYD1ATB5cdseHXhcTh9rvckyMsOTD5IGzZDwFq9mb1IQ95SOHrfiQdexs6xsHU+cmNWFP+Vg7VWJneQTjDKxWaVIT7vR0vslWQpv4QefJeAruvk6Dj6VFIN1wnoyn4PJCXBPulCMGuONjOeGIF3WejKfg8k9cEx4ui2GfCoFswYf0wtnWNw4uz5upCR9wzDCMa5inaKIdEX5lV9UNHx4+ZT50i7D6FOYPdxYXd45cnAlgcZRi/Omd8yLcuUt7ccXufejHT6WGt9kPeK9HPaQ5WIwpMQTl9pZT4ZuE+6QJ1Mgfb0VnQed5wO6lcJqMZ3xo+qEHBDsro7OwqPgpYn4UmyfyWb367U0aF2+X4bg3SS/AxXmtDT/MibcGSnfJKnaTjKe4pE2jhIiP9PSPmNYVf+weXIZwJyxrfQ5uwgoc8OhrBHan4YC5jyn0LlYxvfAuxlqYFW9jkqiVtX8fej2YQOgV3GYfvQWfOR+/AguyLEdKMIVdcN8UFCKyXINNyi8JnWUZH3+lKfHxsE+WfQOQCMI9tRHlSHTRKB+S43WTjKfg6VW4dezSoem2xOn4Y4uA3WsgkoLN3FdIkRRpBEXSy9me/AGUSakhIhdgOdmTUZNaiN85eEX5KIuwarYTlaoU94+d4envfx+fCvV83gENGgKRWqHGAoiAr9A5Ea6xwknAV5peSWn54IBvhTYS8x+a3lyEJgLpg/370OvByxOXj187dJr7sWPjQ9xjQC8VcA2r/pgdyP2ET3UU37diMjrowpE+4NniZOsbB5+x1+4cnwvSxxlFx8eRnAuEKR/43fy+oujqn6QPbpLxFNyiZASTIboKo4yQ8g5qgToFV38oEHiBNOGjWD0GI3SHOsFLrvlwiz90V2SwH8BoTF3Nn1E0VCuW+VQKyEjJ8cOI7KvVIjI/lMk0RKIa2wPl0+/mfKQ5Fp06T8a3aU1Qj5x9KjofIjR//zaeL4dIncLXTYACtQRyeQBmtudhMBKg3S9Pw+ZXGCCGoIwMWydqOoxM+A1ir2M7Fk/BkDpc7YzXgz25RygQ6P2UnxCh6v0tula7NqGArrwvDCP4MLGMLDMCYoPXYW8OSsgcyCvTB9m+tuAQbJRLxInFdt5b8HnqcusbB1O0QRC57tAqHC2RJRRDE46mKhJfYXiBh/nosLMT5jU/iFTDcP/u+DxM0QTuARAjGTvUxj8qHSMmud36xsEjDpgUEJqErViMG4QEfV5WMEvO35vP5fvIYZZsTO/JZzGHvmS2ixjOi+ruLax3lC2yPqNSaPbBsYdHRKlPt/vUNxF4RCh6iEhoDqo6jwqwC9vMgecgXEjDsiZQ8zCRHoDxLGt4a4ZebmRSsLGfk9jO/7orh/wc2xnvJtrG4ALhXwKtKH34pHNAykwYCbTdbfXBPWm8MwTJHTLTEtsTPnxYntjGlwetow1YeoXWXK73/xYRnyVYbe/GW8wX7y1Bt9HVRdf41jfnyXgKnlG52S1wqLCoF6RHyKFGkCQ7yOTGV8rUNMu+6fmpzFdkFeieF7kIX7G6i0R2oaos7aD2D2P+2H34gF6Nvoopyv36p5VEZ/9FeuAuGU/BM15T50UC4dAgEAaoBC2XCmW+0UX2FfWHkQDyUsimR8pwhEK46js4UvzKOIy/WyJx4RF01M23UDd1Ge6S8RQ8I5kROHDkfnR0XkExonbZKATqjtVEUKAGOwoWoshe3353W4lRTQur9XcShc5Tl87KuS7Aa/Z5gUBAM5sLntgRyMKOc1qGtyPIlRI9q/3vV27PwNvjN01KD6jkAnfJ+DatEVUgiBw4GqD7Cl1CsR2ooTiB76hCi79W8/HDSHEgXWP6BwUVpeIELOkCXD8ZHMFJfmfRtptkPAUb5C6hQJA6YOv+K2y05+ERbGZQjE1CnQjWO9vLm7BAI58AievyWDxgRoFACpZHcldgnvFBJgHeTooCOjXadpuMp7jJBYLgVIQQHH3GHTqkSjy5DUVfpLYBQ8QW9aBDpEJRVEoiFyQPCthCwJR6Lzabr1tw1+Qeal207VYe6PcHCyJu8rSST3Qp+5Ud1VN1LQNsckfes4lFOsvsIEUHPGkyBbeprf9kfo/7JA3i3CbjKawFQnQSdB4VLuUyPL7vHdmGmSnuALPLB9vLPJ3Rl5/KoO6pf79kEZ3ecnMfej24yPhzVSB4zusED1oBxWKnOid6M1BCxqCo5XeyKDiI+Mpp9e3EJqRqxQEYGSIDFLsnHH3KZ9b91jcOPsrnRALh7pHOoS7h2MCXwgt/Wd1tieXC5lA2M97vo2YikoZMPnOwiyxdJBKQB6m89r8yS71hDU9rnm6T8RRd1gLBIOCqiAS2XbXUIDfMWC6kirz6jex2qcjMuOyDHbL64K3ZfAvdcXUfeh14EDUiEghvwTg+EZHjDNS5Wf2h3ElGGAkDs4cAatG27YfCisEFgiDCj3Zr2UBq4AJ6hRCRDYkq9J4+UYXDVDRKgTTQBkwHSLrrWbStNkPnb1KYwn4PVS1d+xl99NGANtMCkULno4VwUU0syr5BmJ+HQXWmoWX2CGAYrbcSlYCxUWEAjE/x0dV96PVg90cKU/LImMJnqsBG8f3RwewypFCkg81CpqcvmMxB2ieTTDXOJ/QNkRwIPhwKEk9VGqQWElk4kwkn8eeYuEvGU7AkXp9QIIRufURxC7nEn9X5PTSzMLDCXXl+G4etzPFkv6LDA+2wd2hb9agoohPz0UXbXjxjnN9fLHQRyDts3VZTcK8gR2s6QfojOZKh9SD69135fDbID9sS13tJPymf29At5KO5U6+eAa+r2YsmRAhFZTqDgAYmQ50e0jUDxWIalukf947A8GApNTE/QtVTXw5WhvE4ZVWPvGTigbRo230ynoJfF5FAiK7qDByK6JCaLsD2UH7kYKFIPWbt0fZIfmgT35sRCARwfWg5m0RCuxgg6+hgSl0/n00UQnSVR9vukvEUfN6KBEJoThehojlTQBYYqelB7jGRuC7i+JsFPnItNTCoBeCyb4Haa+XQpJilRdvuk/EUvGafE1Q3ER9dRmQJ86n3mOSwzr/y9+V+WqOomtVOQ3PUSjt4KKwQfUwgDAk8XqhbV9NCglSX+CD91hPDEyyge5fm42mKCOkDE0Gqi7ad3YdeD33NXnA+Q8AAnamaygGF26WBcAotEzVRhT3ohOZPkapLTU+Ei2o5y0oefGA3jbqPttWGLGr2oTuw46eMqkfQk0D+lHrMQfg6lOzJ5uihXJs+yPe1BfMzw+SwPLGdTQR7UAxAAlRl0TRe0EXbbpPxFLqavTC6Pw9wWCUrQBvHTZhANk5L/SEHOr0Cm1qmNrkJK9OwqZrei3T5LZk/mFGi3sKLZDyFZc0eIfpeNdloDVxTLSp1QcFsVvVF5EdvV4/6exa09tCKv3Jk/kRqT6NtjJy1QEAhg5Z0Ut6hj26qTrwXyZ50emFG0yjZbejsX4FlbZyQDIKDC2R4kO8xrdTr5YHbZDwFd8yCmj2+fqM6g5COl/shk7yOltEgScD70kgEXU9mYACtG3xj48ZBHi2cDFatsmrc/GBebIzO/puc2+3WNw4uEAQ1e+MmBOXTsIxC6uIAMnOaaQ4EiunOgaKWZ0R2bnBjor+Iy5CRGqk1WhgD7BB4tO02GU/BBYKoZm/kszUsU9ei9zsRoxvi+xECJaCGxLK27eKhsEI0qNkbNlUY78g4FnfX0ZRJbGruSjGkORcPhRVCV7MXPUZe+sBytmhdh1nGGsnPWkGX+UDzLjzME9hoVqZSK1jr8NKpkM9dFw+FFYMLBNGJ0YTTDEJs/mo2d/CoSDIFxen5qaF8ZnsXxdTULmR6rieXqc7GAWomm7ywpTTYeqBF294k4yka1OxJjUENf7BFTWRgIz0MU6rHDOaQCEovaBEpioOm0+mJGdLLm5gPCtRFpWatdf4ME/fJeAqW+AoKBQJOyZOS7mcW319PXtc3cD1r2JiYSKo7E9vOEW19GwR2hoFaafdb3zj0NXvxNezAWTjEx268NUWyd8qW+QLS3Kl38sCwqU+cgpFIEBS7Z9vhDYEaZph+x5AWbXuTjNfOalWzbydZeSoq2W5p+m2T2tdM8m+VVL8vkH6H4M2bl6jvMk3t8K1i3iTjKaxr9u0kqKsa+DQPugHVLDbFTfNnnHlEp8GmPnIR1T159rFDFtAf5sl4Ndr2JhlPYV2zb+eaxwEfoq8tPJD0lkXbTh4KK4R1zZ7yeYXXtRM+ZPPboenmN1207UUyvk1rjGqNpPi8yAiRPYZO+Bwq1nz4Mza9SMZTMC0ortljPkT3zzghVLWcbyEabTt9KKwYupq9WYqZ8NlywmdRsbIHk06/oc0KDWr22sb/2KETPjgdb2qvNXfq7ReyWtfsOZ9FR3xGFXN/qkXb7u5Drwe/De9PsUCYpHtARx3x2VHumwrsULfTb2izgnXNHoPyeedwfD6Zmjct2vYqGU9hXbMnfPCeVryjyAE+V8GkVRxbUUfu+KGwQljX7PFpKZ/Pjvjcvm+eP9BF294k49u05sxr9oTPKA0YnEABseogDb/PGjvgGR+6LpPiXeyUjyOBDaOmd5m1G6Jtb5LxFOwxCtdNdv3TPKcjPkszVt/f6fwb2qzABIK4Zo+mBdmE4yRgGL9nHsydSLSNwXc+i5eu9FHdVGQf7/6wyL7po21vkvEUDWr2SNUfkltiHfBZtPoyUi3a9i4ZT6Hb1Dcr/CLpu1v3MOzTGZ9/a/UF1bpo25tkPIWuZu9gCNyAP/HdQzq6mn2wyzv0EFh/hs4yFw+FFcJo/3sJ+hCCHC7PwJvC7fbRU7B3wbtkPGuQh+/ih724CR97hc+TYkPi/j70eoDhzsIk1Mq1YqFQGkwNhPuHN1YWdn91NcGzsLv7aGFiZXq4M5xOlYq1YrHYz2eYm4fCilF352cWaogPopMeCHcOT6882gVXBgj5A8RnYWV6Y7h/IFUqIDqd4/xtL5PxFPXxxxAU9Xx2YaHgJr18LR0GwOPD+IT1l8fNQ2HFOBYfZoDzQXSmU4UVF1fwaulG/yPYZXxqKYP79DIZT3F8M10OVD7T6K2F4f7U8FQwYQ/XNSTgRhhfFdidJnyKg8ZkgZfJeApBfmVql/BZmR4gCKP/HGNARRoInxQYymEeR9sYgvzXzRXCZ+KG7plpbiFTPqU6Me3+PvR6HN8sfG23qPJx/eQ3DpVPoc64gPv70OtwLH/M7AHlE6fAPwM+8tMXD5DfaG9pMPwior0IqP+qfGqDhvUCXibjhU3mmb0mfOI/Kso/f1f+jiuV/cfxPf/Yd2XM/+J7Rfkej6///ewJevV8r1JRXlS+xeMvK0rldaXy23ql6vuiKN/3flt/87999LbfVxnl9tp4Mb2MtlU+uvpLDxRrRj6vv+392P8xVok/exP3Vx8/rHyrPq68GHscie/trY9VfL9Vx74/G3u5/wwN3Av8Oh7ff7H/fD0z5tv7bU/5sj+WeTL2en+J+dMNfjp3D4UVw1AfCyI6Gp8Fyqfqz1Rf+BGfb+t//+dl5uGz9f2/lLHqy3h8r/KXrzL2QhnLPRvbf6HEfYEv1fh3JfZl3V8d8/+FPvDb3pM3+/HXb8b2/6dsqHwKhQk2H7xNxlPo65fGx8lTPs++vKjEKr5KfO/HD0XZe/jmSQWNz0M0DOs/lHjl8bf9eO5ZHH3keTzwxY9ej8X3n/u/rL8ee4zm23M/5oPeVnZ0LWsZKm+T8RR6l9arV2ojg4TPy3jmx9iTh1VlD82jserDNy8qaNIpGXT5/369/g2tn/j3J9/ejL1+ifjso/GpPNx7nnnywl95+J9/9p6/XEd//8+zsXf/1TWtncbbZDyFqeQgfDSTRm1WgJi5evvmU//x+QJxn9GusbdlYdLdi/vQ62GaMaJ8PPM/Ij7ebX3jMJXsI4OyhxDycflQWCFMQ6ocdHqHfqHsBC/uQ6+DacibSPb09CQ9g2idgLfJeNaotymJpuHl1jcOr1NGzcOb+9Dr4XVKr3l4nYyn8HKDkz14nYyn8DolftZnPtsvcfSczhl/iaP3fBx/55QXOAHLGrx57uzgdXTaQgsttNBCCy200EILLbTQQgsttNBCCy200EILLbjA/wMuHMoPLkSDYgAAAABJRU5ErkJgggA=" /></p>
+                <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+
+
+                    <!-- <button onClick="keluar()" value="keluar">keluar -->
+                </div>
+
+                
+
+		
+                <div class="panel" title="Kritik/ Saran/ Komentar" id="page5" data-footer="none">
+                    <header>
+                        <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton" style="float:left !important"></a>
+                        <h1>Kritik/ Saran/ Komentar</h1>
+                    </header>
+                    <div><form id="inputkomen">
+                    <p style="padding:15px;">                    
+                        
+            <input name="nama" type="text" placeholder="Nama" />
+            <input name="hp" type="text" placeholder="No. HP / WA" />
+            <textarea name="komentar" placeholder="Berita Pengaduan" rows="6"></textarea>             
+            <a class="button green" href="#" id="komentar">Kirim</a>                    
+            </p></form></div>
+                                                  
+                        <input type="hidden" id="demo"><center>
+                        <H4  id="demo1"></H4><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+                        
+                            <script>
+                            var online = navigator.onLine;
+                            document.getElementById("demo").value = online;
+                              if ( demo.value == "true" )
+                                {var konek = ""; }
+                              else if ( demo.value == 'false' )
+                                {var konek = "<font color=red><b>Koneksi Internet : Tidak Terhubung"; } 
+                                 // document.getElementById("demo").innerHTML = "navigator.onLine is " + navigator.onLine;
+                                  
+                                  document.getElementById("demo1").innerHTML = konek;
+                            </script>
+                            <script type="text/javascript">
+                                function keluar() {
+                                    //close();
+                                    //opener.window.focus();
+                                    //return false;
+                                    confirm('yakin ingin keluar?',exitFromApp,'exit','Cancel,OK');
+                                }
+                                function exitFromApp(bi){
+                                    if (bi==2){
+                                        //navigator.device.exitApp();
+                                        //navigator.app.exitApp();
+                                        window.close();
+                                    }
+                                }
+                            </script>
+                </div>
+
+                <div class="panel" title="Profile" id="page6" data-footer="none">
+                    <header>
+                        <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton" style="float:left !important"></a>
+                        <h1>Bantuan</h1>
+                    </header><p style="padding:15px;">
+                    percobaan ... 
+
+
+                    <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
+                </div>
+
+   
+    </body>
+
+</html>
