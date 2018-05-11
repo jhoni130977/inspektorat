@@ -60,8 +60,8 @@
             });
             function komen(){            
             var data = $("#inputkomen").serialize();
-            //$.post("http://smk-smeatdkosgoro2pdg.sch.id/belajar/input_komentar.php", data, function(data){
-			$.post("http://localhost/belajar/input_komentar.php", data, function(data){
+            $.post("http://smk-smeatdkosgoro2pdg.sch.id/inspektorat/input_komentar.php", data, function(data){
+			//$.post("http://localhost/belajar/input_komentar.php", data, function(data){
                          
                         if(data.status == 'isi_data'){
                                 //   alert("Mohon isi data dengan lengkap !");
