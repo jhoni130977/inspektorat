@@ -167,6 +167,7 @@
                 <ul class="list">
                     <li><a href="#page1" class="icon home">Home</a>
                     <li><a href="#page5" class="icon paper">Permintaan Surat Keterangan</a>
+					<li><a href="#page12" class="icon paper">Form Pengaduan</a>
 					<li><a href="#page6" class="icon user">Status Kependudukan</a>
 					<li><a href="#page7" class="icon location">Informasi Desa</a>
 					<li><a href="#page8" class="icon question">Informasi Bantuan</a>
@@ -218,27 +219,44 @@
                <p style="padding:5px;">                         
              <center><font size=3><b>Entri Surat Keterangan / Pengantar  </b></font></center>
 			 <p style="padding:15px;">
-
-            <input name="nomor" type="text" placeholder="Nomor Surat" />
-            <input name="hal" type="text" placeholder="Hal" />
-			<input name="lamp" type="text" placeholder="Lampiran" />
-			<input name="nama" type="text" placeholder="Nama Lengkap" />
-            <input name="tlahir" type="text" placeholder="Tempat Lahir" />
-			<input name="tgllahir" type="text" placeholder="Tanggal Lahir" />
-
-			<input name="warga" type="text" placeholder="Kebangsaan / Warga" />
-            <input name="status" type="text" placeholder="Status" />
-			<input name="pendd" type="text" placeholder="Pendidikan Terakhir" />
-
-			<input name="pekerjaan" type="text" placeholder="Pekerjaan" />
-            <input name="ktp" type="text" placeholder="No. Induk KTP" />
-			<input name="tinggal" type="text" placeholder="Tempat Tinggal" />
-
-			<input name="keperluan" type="text" placeholder="Keperluan" />
-            <input name="keplain" type="text" placeholder="Keperluan Lain" />
-			<input name="gunasurat" type="text" placeholder="Guna Surat Keterangan" />
-
-            <textarea name="alamat" placeholder="Alamat Tinggal" rows="6"></textarea><br>
+			<b>Nama Lengkap
+            <input name="nama" type="text"  />
+			<b>Tempat Lahir
+            <input name="tlahir" type="text"  />
+			<b>Tanggal Lahir
+			<input name="tgllahir" type="date" />
+			<b>Kebangsaan<br>
+			<input style='width:100px;' name="warga" type="text" value="Indonesia" disabled /><br>
+			<b>Agama<br>
+            <select name="agama" style='width:100px;'>
+				<option>Islam</option>
+				<option>Kristen</option>
+				<option>Katolik</option>
+				<option>Hindu</option>
+				<option>Budha</option>
+				<option>Konghucu</option>
+			</select><br>
+			<b>Status<br>
+            <select name="status" style='width:120px;'>
+				<option>Belum Kawin</option>
+				<option>Kawin</option>
+			</select><br>
+			<b>Pendidikan Terakhir
+			<input name="pendd" type="text"  />
+			<b>Pekerjaan
+			<input name="pekerjaan" type="text" />
+			<b>No. KTP<br>
+            <input name="ktp" type="text" style='width:300px;' /><br>
+			<b>Tempat Tinggal
+			<input name="tinggal" type="text"  />
+			<b>Keperluan
+			<input name="keperluan" type="text"  />
+			<b>Keperluan Lain
+            <input name="keplain" type="text"  />
+			<b>Guna Surat Keterangan
+			<input name="gunasurat" type="text"  />
+			<b>Alamat Tinggal
+            <textarea name="alamat"  rows="6"></textarea><br>
 
 			<span style='float:right;'><b>by : todaksource</b></span> <br>
 			
@@ -312,6 +330,17 @@
                     </header>
 					<div>
 					Ini adalah Isi Info Aplikasi
+					</div>
+                </div>
+
+	<!-- -------------------------------------- Form Pengaduan ------------------------------------------------------ -->
+                <div class="panel" title="" id="page12" data-footer="none">
+                    <header>
+                        <a id="menubadge" onclick="$.ui.toggleSideMenu()" class="menuButton" style="float:left !important"></a>
+                        <h1>Form Pengaduan</h1>
+                    </header>
+					<div>
+					Ini adalah Isi Form Pengaduan
 					</div>
                 </div>
 
